@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+
+{% block title %} Wishlist {% endblock title %}
+
+{% load static %}
+
+{% block main-content %}
+
+<div class="row">
+    <br><br>
+    <h1 class="text-center mb-5">Wishlist</h1><br>
+    {% if messages %} 
+        {% for msgs in messages %}
+        <div class="alert alert-{{msgs.tags}}" role="alert">
+           <center>  {{msgs}} </center>
+        </div>
+        {% endfor %}   
+    {% endif %}
+    <hr>
+    <div class="col-sm-11">
+        <div class="card">
+            <div class="card-body">
+                {% for wishlist in wishlists %}
+                <div class="row">
+                    <div class="col-sm-3 text-center align-self-center"><img src="{{wishlist.product.product_image.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"> </div>
+                    <div class="col-sm-9">
+                        <div>
+                            <h5>{{wishlist.product.title}}</h5>
+                            <p class="mb-2 text-muted small">{{wishlist.product.description}}</p>
+                            <div class="my-3">
+                                <p class="mb-0"><span><strong>$ {{wishlist.product.discounted_price}}</strong></span></p>
+                            </div>
+                            <div class="">
+                                <a href="{% url 'product-detail' wishlist.product.id %}" class="btn btn-sm btn-success px-5 py-2">View details</a>
+                                <a href="{% url 'removewishlist' wishlist.id %}" class="remove-wishitem btn btn-sm btn-danger px-5 py-2">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="text-muted">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+   </center>
+    <br><br><br>
+</div>
+<br><br>
+
+{% endblock main-content %}

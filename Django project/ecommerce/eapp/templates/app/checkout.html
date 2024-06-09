@@ -1,0 +1,84 @@
+{% extends 'app/base.html' %}
+
+{% block title %} checkout {% endblock title %}
+
+{% load static %}
+
+{% block main-content %}
+<div class="container">
+   <div class="row mt-5">
+     <div class="col-sm-6">
+        <h4>Order Summary</h4>
+        <hr>
+        {% for item in cart_items %}
+          <div class="card mb-2">
+            <div class="card-body">
+                <h5>Product: {{item.product.title}}</h5>
+                <p>Quantity: {{item.quantity}}</p>
+                <p class="fw-bold">Price: {{item.product.discounted_price}}</p>
+            </div>
+          </div>
+        {% endfor %}
+        <p class="fw-bold">Total Cost + $. 50 = {{totalamount}} </p><br><br><br>
+     </div>
+     <div class="col-sm-4 offset-sm-1">
+        <h4>Select Shipping Address</h4>
+        <hr>
+        <form action="/paymentdone" id="myform">
+            {% for ad in add %}
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ad.name}}</h5>
+                    <p>locality: {{ad.locality}} , city: {{ad.city}} , district: {{ad.district}} , zip-{{ad.zipcode}}</p>
+                </div>
+            </div>
+            <div class="form-check mt-2 mb-5">
+                <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+                <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">Address:{{forloop.counter}} </label>
+            </div>
+            {% endfor %}
+
+            <div class="text-end">
+              <div id="paypal-button-container"></div> 
+            </div>
+        </form>
+     </div>
+   </div>      
+</div>
+<br><br><br>
+   
+{% endblock main-content %}
+
+{% block payment-gateway %}
+
+<!--Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AW3uV1qp5z6dX3R7kG42isJTwStJ2a4bbPu-uQoyg-r3cwjwdurHtTGJfOG_hqtn7QpGyPxhtByw2X2K&currency=USD"></script>
+
+<script>
+   // Render the PayPal button into #paypal-button-container
+   paypal.Buttons({
+    
+        //  set  the transaction
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                   value: '{{totalamount}}'
+              }
+            }]
+          });
+        },
+
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function (details) {
+             alert('Transaction completed by' + details.payer.name.given_name + '!');
+             document.getElementById("myform").submit();
+          });
+        }
+
+   }).render('#paypal-button-container');
+</script>    
+
+
+</script>
+{% endblock payment-gateway %}

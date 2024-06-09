@@ -1,0 +1,48 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %} Search{% endblock title %}
+
+{% block main-content %}
+
+{% if product|length < 1 %}
+<center><br><br><img  src="{% static 'app/images/notfound.png' %}" width="400" height="400"></center>
+{% endif %}
+
+   <div class="container my-5">
+    <div class="col-sm-12">
+      <div class="row ">
+        <center><h1>Search Result</h1></center> 
+         <hr> 
+            {% for pro in product %}
+              <div class="col text-center mb-4">
+                {% if pro.stock < 1 %}
+                <a href="{% url 'product-detail' pro.id %}" class="btn">
+                    <div class="item">
+                     <img src="{{pro.product_image.url}}" alt= "" height="300" class=""/>
+                     <div class="fw-bold text-danger">Out Of Stock</div>
+                     <div class="fw-bold">$.{{pro.discounted_price}}
+                     <small class="fw-light text-decoration-line-through">   
+                      $.{{pro.selling_price}}/-
+                     </small></div>
+                    </div>
+                </a>
+              {% else %}
+                <a href="{% url 'product-detail' pro.id %}" class="btn">
+                    <div class="item">
+                     <img src="{{pro.product_image.url}}" alt= "" height="300" class=""/>
+                     <div class="fw-bold">{{pro.title}}</div>
+                     <div class="fw-bold">$.{{pro.discounted_price}}
+                     <small class="fw-light text-decoration-line-through">   
+                      $.{{pro.selling_price}}/-
+                     </small></div>
+                    </div>
+                </a>
+            {% endif %} 
+              </div> 
+            {% endfor %}  
+      </div>
+    </div>
+   </div>
+</div>
+ <br><br>    
+{% endblock main-content %}

@@ -1,0 +1,62 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %} Mobile {% endblock title %}
+
+{% block main-content %}
+   <div class="container my-5">
+    <div class="row ">
+      <div class="col-sm-2">
+        <div class="list-group">
+                 <a href="{% url 'mobile' %}" class="list-group-item list-group-item-action" aria-current="true">All Mobiles</a>
+
+                 <a href="{% url 'mobiledata' 'Samsung' %}" class="list-group-item list-group-item-action" aria-current="true">Samsung</a>
+
+                 <a href="{% url 'mobiledata' 'Redmi' %}" class="list-group-item list-group-item-action" aria-current="true">Redmi</a>
+
+                 <a href="{% url 'mobiledata' 'Infinix' %}" class="list-group-item list-group-item-action" aria-current="true">Infinix</a>
+
+                 <a href="{% url 'mobiledata' 'Xiaomi' %}" class="list-group-item list-group-item-action" aria-current="true">Xiaomi</a>
+
+                 <a href="{% url 'mobiledata' 'Itel' %}" class="list-group-item list-group-item-action" aria-current="true">Itel</a>
+
+                 <a href="{% url 'mobiledata' 'Tecno' %}" class="list-group-item list-group-item-action" aria-current="true">Tecno</a>
+
+                 <a href="{% url 'mobiledata' 'Vivo' %}" class="list-group-item list-group-item-action" aria-current="true">Vivo</a>
+                 
+        </div>
+      </div>
+    <div class="col-sm-10">
+      <div class="row ">
+            {% for product in mobiles %}
+              <div class="col text-center mb-4">
+               {% if product.stock < 1 %} 
+                <a href="{% url 'product-detail' product.id %}" class="btn">
+                    <div class="item">
+                     <img src="{{product.product_image.url}}" alt= "" height="300" class=""/>
+                     <div class="fw-bold text-danger">Out Of Stock</div>
+                     <div class="fw-bold">$.{{product.discounted_price}}
+                     <small class="fw-light text-decoration-line-through">   
+                      $.{{product.selling_price}}/-
+                     </small></div>
+                    </div>
+                </a>
+                {% else %}
+                <a href="{% url 'product-detail' product.id %}" class="btn">
+                    <div class="item">
+                     <img src="{{product.product_image.url}}" alt= "" height="300" class=""/>
+                     <div class="fw-bold">{{product.title}}</div>
+                     <div class="fw-bold">$.{{product.discounted_price}}
+                     <small class="fw-light text-decoration-line-through">   
+                      $.{{product.selling_price}}/-
+                     </small></div>
+                    </div>
+                </a>
+                {% endif %}
+              </div>
+            {% endfor %}  
+      </div>
+    </div>
+   </div>
+</div>
+ <br><br>    
+{% endblock main-content %}

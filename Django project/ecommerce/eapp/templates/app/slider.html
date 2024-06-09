@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'app/css/slider.css' %}"/>
+</head>
+<body>
+    <header>
+        <nav> 
+            <a  href="/"></a> 
+            <a href=""></a>
+            <a href=""></a>
+        </nav>
+    </header>
+
+    <!-- carousel -->
+    <div class="carousel">
+        
+        <div class="list">
+            {% for s in sliders %}
+            <div class="item">
+                
+                <img src="{{s.image.url}}">
+                <div class="content">
+                    <div class="author">{{s.product.title}}</div>
+                    <div class="title">{{s.brand_name}}</div>
+                    <div class="topic"></div>
+                    <div class="des">
+                        {{s.descriptions}}
+                    </div>
+                    <a href="{% url 'product-detail' s.product.id %}">
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                    </div></a>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+        <!-- list thumnail -->
+        <div class="thumbnail">
+            {% for s in sliders %}
+            <div class="item">
+                
+                <img src="{{s.image.url}}">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+        
+
+        <div class="arrows">
+            <button id="prev"><</button>
+            <button id="next">></button>
+        </div>
+        <!-- time running -->
+        <div class="time"></div>
+    </div>
+
+    

@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %} about {% endblock title %}
+
+
+
+
+{% block banner-slider %}
+{% include "app/slider.html" with sliders=sliders %} 
+{% endblock banner-slider %}
+
+
+{% block main-content %}
+
+<nav class="navbar navbar-expand-lg navbar-light ">
+  
+  <div class="row  text-center p-5 text-white ">
+   <small= class="fs-5">
+    <h2> About_us </h2><br>
+     <h5>{{infor}}</h5>
+   </small>
+ </div> 
+</nav>  
+{% endblock main-content %}
+
+
+
+
+
+ 
+     

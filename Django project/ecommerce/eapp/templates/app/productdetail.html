@@ -1,0 +1,70 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %} Product-detail {% endblock title %}
+
+{% block main-content %}
+   <div class="container">
+      <div class="row flex justify-content-between">
+          <div class="img2 col-lg-5 mt-5">
+              <img src="{{product.product_image.url}}" class="image col-xs-5 col-sm-10 col-lg-10 mt-3 text-sm-center w-95 h-75" alt="">
+          </div>
+          <div class="productdetail col-lg-6 mt-6"><br><br><br>
+              <h1 style="font-family: Georgia; font-size: 50px;">{{product.title}}</h1>
+              <h5>${{product.discounted_price}}/-</h5>
+              <small class="text-decoration-line-through text-muted fs-5"><del>${{product.selling_price}}/- </small></del>
+              <br><br><h4>Product Features</h4>
+              <ul class="fs-5" style="font-family: Rajdhani;">
+                <li>{{product.description}}</li>
+              </ul>
+                {% if product.stock <= 0 %}
+                 <h1 class="text-danger">Out Of Stock <br></h1>
+
+                    {% if item_already_in_wishlist == False %}
+                     <form action="/add-to-wishlist" class="d-inline">
+                      <input type="hidden" name="prod_id" value={{product.id}} />
+                      <button type="submit" class="btn btn-primary shadow px-5 py-2">Add to Wishlist <i class="fa-solid fa-heart"></i></button>
+                     </form>
+                    {% else %}
+                    <a href="{% url 'show-wishlist' %}" class="btn btn-warning shadow px-5 py-2 "> Go To Wishlist <i class="fa-solid fa-heart"></i> </a>
+                    {% endif %}
+                 
+
+                {% else %} 
+                {% if item_already_in_cart %}
+                 <a href="{% url 'showcart' %}" class="btn btn-warning shadow px-5 py-2 "> Go to cart <i class="fa-solid fa-cart-shopping" ></i> </a>
+
+                    {% if item_already_in_wishlist == False %}
+                    <form action="/add-to-wishlist" class="d-inline">
+                    <input type="hidden" name="prod_id" value={{product.id}} />
+                    <button type="submit" class="btn btn-primary shadow px-5 py-2">Add to Wishlist <i class="fa-solid fa-heart"></i></button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'show-wishlist' %}" class="btn btn-warning shadow px-5 py-2 "> Go To Wishlist <i class="fa-solid fa-heart"></i> </a>
+                    {% endif %}
+                 
+                    
+                {% else %}
+                
+                 <form action="/add-to-cart" class="d-inline">
+                  <input type="hidden" name="prod_id" value={{product.id}} />
+                  <button type="submit" class="btn btn-success shadow px-5 py-2">Add to Cart <i class="fa-solid fa-cart-shopping" ></i></button>
+                 </form>
+
+                    {% if item_already_in_wishlist == False %}
+                    <form action="/add-to-wishlist" class="d-inline">
+                    <input type="hidden" name="prod_id" value={{product.id}} />
+                    <button type="submit" class="btn btn-primary shadow px-5 py-2">Add to Wishlist <i class="fa-solid fa-heart"></i></button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'show-wishlist' %}" class="btn btn-warning shadow px-5 py-2 "> Go To Wishlist <i class="fa-solid fa-heart"></i> </a>
+                    {% endif %}
+
+                  
+                {% endif %}
+                {% endif %}  
+          </div>
+      </div>
+      <br><br>
+   </div>
+    <br><br>
+{% endblock main-content %}
